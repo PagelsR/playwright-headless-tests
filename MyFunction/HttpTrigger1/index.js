@@ -1,5 +1,5 @@
 const {chromium } = require('playwright-chromium');
-//const {AppInsightsContextListener } = require('appinsights-playwright')
+const {AppInsightsContextListener } = require('appinsights-playwright')
 
 module.exports = async function (context, req) {
     context.log("Function Entered.");
@@ -8,7 +8,7 @@ module.exports = async function (context, req) {
     // -'AutoCollect' to collect screenshots after every action taken
     // -'OnFailure' to collect screenshots only for the failed actions
     // -'No' to skip the screenshots collections. Default value.
-    //const listener = new AppInsightsContextListener("OnFailure");
+    const listener = new AppInsightsContextListener("OnFailure");
 
     try {
         const browser = await chromium.launch({headless: true});
@@ -31,11 +31,11 @@ module.exports = async function (context, req) {
         expect(await page.title()).toBe('I Donno Page?');
 
         // Close page
-        //await page.close();
+        await page.close();
 
         // ---------------------
-        //await browserContext.close();
-        //await browser.close();
+        await browserContext.close();
+        await browser.close();
 
     } catch (err) {
         context.log.error(err);
